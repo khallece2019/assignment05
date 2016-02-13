@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * This class contains methods for recursively sorting a list of items of any type
  * using the mergesort and quicksort algorithms. This class also contains testing
- * code to determine the complexity of the best, average, and worst case runtimes
+ * code to determine the complexity of the best, average, and worst case run-times
  * of these algorithms
  * @author Kaitlin Hall and Michael Mackliet
  *
@@ -15,7 +15,6 @@ import java.util.Random;
 public class SortUtil{
 	//Variable declarations 
 	private static Random rand;
-	private static int threshold;
 	private static int thresholdSize = 3;
 	
 	/**
@@ -124,7 +123,8 @@ public class SortUtil{
 	 */
 	public static <T> void quicksort(ArrayList<T> list, Comparator<? super T> comparator){
 		int left = 0;
-		int right = list.size();
+		int right = list.size() -1;
+		
 		quicksortRecursive(list, comparator, left, right);
 	}
 	
@@ -137,14 +137,63 @@ public class SortUtil{
 	 * @param right --
 	 */
 	private static <T> void quicksortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
-		if(threshold<thresholdSize){
-			insertionSort(list, comparator, left, right);
+//		if(right - left <= thresholdSize){
+//			insertionSort(list, comparator, left, right);
+//		}
+		if(left >= right){
+			return; 
 		}
 		else{
-			
+			int pivotIndex = partition(list, comparator, left, right);
+			quicksortRecursive(list, comparator, left, pivotIndex-1);
+			quicksortRecursive(list, comparator, pivotIndex+1, right); 
 		}
 	}
 	
+	private static <T> void swap(ArrayList<T> list, int i1, int i2){
+		T temp = list.get(i1); 
+		list.set(i1, list.get(i2)); 
+		list.set(i2, temp); 
+	}
+	
+	private static <T> int partition(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
+		//find pivot, swap with right_bound;
+		T pivot = list.get((rightBound - leftBound)/ 2);  
+		int pivotIndex = (rightBound - leftBound)/ 2; 
+		
+		swap(list, rightBound, pivotIndex);
+		
+		//L = left_bound, R = right_bound - 1;
+		int left = leftBound;  
+		int right = rightBound - 1; 
+		
+		int leftComparison = comparator.compare(list.get(left), pivot); 
+		int rightComparison = comparator.compare(list.get(right), pivot); 
+		
+		while(left <= right){
+			if(leftComparison <= 0){
+				left++; 
+				continue; // find next item > pivot
+			}
+			if(rightComparison <= 0){
+				right--; 
+				continue; // find its “swapping partner”
+			}
+			
+			//swap left and right-hand elements of list
+			//(arr, L, R); // partners found, swap them
+			swap(list, left, right); 
+			left++; 
+			right--; 
+			
+			leftComparison = comparator.compare(list.get(left), pivot); 
+			rightComparison = comparator.compare(list.get(right), pivot); 
+			
+		}
+		swap(list, left, rightBound); 
+		pivotIndex = left;  
+		return pivotIndex; 
+	}
 	
 	/**
 	 * This testing method generates a list of items from 1 to size in order to test the run-time 
