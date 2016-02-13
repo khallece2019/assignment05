@@ -16,7 +16,7 @@ public class SortUtil{
 	//Variable declarations 
 	private static Random rand;
 	private static int threshold;
-	private static int thresholdSize = 16;
+	private static int thresholdSize = 3;
 	
 	/**
 	 * This method performs an insertion sort on a list of data using 
@@ -25,9 +25,9 @@ public class SortUtil{
 	 * @param data -- list of objects of any type 
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
 	 */
-	public static <T> void insertionSort(ArrayList<T> data, Comparator<? super T> comparator){
+	public static <T> void insertionSort(ArrayList<T> data, Comparator<? super T> comparator, int left, int right){
 
-		for(int i=1; i < data.size(); i++){
+		for(int i=left; i <= right; i++){
 			T index = data.get(i);
 			int j = i;
 			
@@ -47,9 +47,12 @@ public class SortUtil{
 	 */
 	public static <T> void mergesort(ArrayList<T> list, Comparator<? super T> comparator){
 		int left = 0;
-		int right = list.size();
+		int right = list.size()-1;
 		mergeSortRecursive(list, comparator, left, right);
+		return;
 	}
+	
+
 	
 	/**
 	 * This method performs a mergesort on a list of items until the number of items to be sorted becomes sufficiently small
@@ -60,11 +63,56 @@ public class SortUtil{
 	 * @param right --
 	 */
 	private static <T> void mergeSortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
-		if(threshold<thresholdSize){
-			insertionSort(list, comparator);
+		if(right-left<=thresholdSize){
+			insertionSort(list, comparator, left, right);
+			return;
 		}
 		else{
+			int mid = (left + right) / 2;
+			mergeSortRecursive(list, comparator, left, mid);
+			mergeSortRecursive(list, comparator,  mid+1, right);
+			merge(list, comparator, left, mid, right);
+		}
+	}
+	
+	private static<T> void merge(ArrayList<T> list, Comparator<? super T> comparator, int left, int mid, int right){
+		// create temp array for holding merged arr
+		int i1 = left;
+		int i2 = mid+1;
+		ArrayList<T> temp = new ArrayList<T>();
+		//put smaller of two sub-lists into temp
+		while(i1 <= mid && i2 <= right){
+			int comparison = comparator.compare(list.get(i1), list.get(i2));
+			if(comparison<0){
+				temp.add(list.get(i1));
+				i1++;
+			}
+			else if(comparison == 0){
+				temp.add(list.get(i1));
+				temp.add(list.get(i2));
+				i1++;
+				i2++;
+			}
+			else{
+				temp.add(list.get(i2));
+				i2++;
+			}
 			
+		}
+		//copy anything left over from larger half to temp;
+		while(i1<=mid){
+			temp.add(list.get(i1));
+			i1++;
+		}
+		while(i2<=right){
+			temp.add(list.get(i2));
+			i2++;
+		}
+		//copy temp over to list
+		int j = 0;
+		for(int i = left; i<=right; i++){
+			list.set(i, temp.get(j));
+			j++;
 		}
 	}
 	
@@ -90,7 +138,7 @@ public class SortUtil{
 	 */
 	private static <T> void quicksortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
 		if(threshold<thresholdSize){
-			insertionSort(list, comparator);
+			insertionSort(list, comparator, left, right);
 		}
 		else{
 			

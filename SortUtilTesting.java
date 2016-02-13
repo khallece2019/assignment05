@@ -2,6 +2,9 @@ package assignment05;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 import org.junit.Test;
 
 /**
@@ -11,10 +14,20 @@ import org.junit.Test;
  *
  */
 public class SortUtilTesting {
+	protected static class IntCompare implements Comparator<Integer>{
 
+		@Override
+		public int compare(Integer i1, Integer i2) {
+			return i1.compareTo(i2);
+		}
+		
+	}
 	@Test
 	public void test() {
-		fail("Not yet implemented");
+
+		ArrayList<Integer> testList = SortUtil.generateWorstCase(10);
+		SortUtil.mergesort(testList, new IntCompare());
+		assertEquals(new Integer(3), testList.get(2));
 	}
 
 }
