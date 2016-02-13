@@ -26,7 +26,7 @@ public class SortUtilTesting {
 	public void test() {
 
 		ArrayList<Integer> testList = SortUtil.generateWorstCase(10);
-		SortUtil.mergesort(testList, new IntCompare());
+		SortUtil.quicksort(testList, new IntCompare());
 		assertEquals(new Integer(3), testList.get(2));
 	}
 

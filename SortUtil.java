@@ -126,6 +126,7 @@ public class SortUtil{
 		int right = list.size() -1;
 		
 		quicksortRecursive(list, comparator, left, right);
+		return;
 	}
 	
 	/**
@@ -148,6 +149,7 @@ public class SortUtil{
 			quicksortRecursive(list, comparator, left, pivotIndex-1);
 			quicksortRecursive(list, comparator, pivotIndex+1, right); 
 		}
+		return;
 	}
 	
 	private static <T> void swap(ArrayList<T> list, int i1, int i2){
@@ -158,8 +160,8 @@ public class SortUtil{
 	
 	private static <T> int partition(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
 		//find pivot, swap with right_bound;
-		T pivot = list.get((rightBound - leftBound)/ 2);  
-		int pivotIndex = (rightBound - leftBound)/ 2; 
+		T pivot = list.get((rightBound - leftBound)/ 2 + leftBound);  
+		int pivotIndex = (rightBound - leftBound)/ 2 + leftBound; 
 		
 		swap(list, rightBound, pivotIndex);
 		
@@ -173,10 +175,12 @@ public class SortUtil{
 		while(left <= right){
 			if(leftComparison <= 0){
 				left++; 
+				leftComparison = comparator.compare(list.get(left), pivot); 
 				continue; // find next item > pivot
 			}
-			if(rightComparison <= 0){
+			if(rightComparison >= 0){
 				right--; 
+				rightComparison = comparator.compare(list.get(right), pivot);
 				continue; // find its “swapping partner”
 			}
 			
