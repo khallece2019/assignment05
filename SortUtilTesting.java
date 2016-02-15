@@ -27,7 +27,7 @@ public class SortUtilTesting {
 
 		ArrayList<Integer> testList = SortUtil.generateWorstCase(123);
 		SortUtil.quicksort(testList, new IntCompare());
-		assertEquals(new Integer(1), testList.get(0));
+		assertEquals(new Integer(10), testList.get(9));
 	}
 	
 	@Test
