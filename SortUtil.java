@@ -15,7 +15,7 @@ import java.util.Random;
 public class SortUtil{
 	//Variable declarations 
 	private static Random rand;
-	private static int thresholdSize = 3;
+	private static int thresholdSize = 1;
 	
 	/**
 	 * This method performs an insertion sort on a list of data using 
@@ -138,12 +138,11 @@ public class SortUtil{
 	 * @param right --
 	 */
 	private static <T> void quicksortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
-//		if(right - left <= thresholdSize){
-//			insertionSort(list, comparator, left, right);
-//		}
-		if(left >= right){
-			return; 
+		if(right-left<=thresholdSize){
+			insertionSort(list, comparator, left, right);
+			return;
 		}
+		
 		else{
 			int pivotIndex = partition(list, comparator, left, right);
 			quicksortRecursive(list, comparator, left, pivotIndex-1);
@@ -159,9 +158,34 @@ public class SortUtil{
 	}
 	
 	private static <T> int partition(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
+		//set pivot equal to random element in list
+		Random rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
+		int pivotIndex = rand.nextInt(1+(rightBound-leftBound))+leftBound;
+		T pivot = list.get(pivotIndex);
+		
+		//set pivot equal to the median of three values
+//		ArrayList<T> temp = new ArrayList<T>();
+//		temp.add(list.get(rightBound));
+//		temp.add(list.get(leftBound));
+//		int mid = (rightBound-leftBound)/2 + leftBound;
+//		temp.add(list.get(mid));
+//		SortUtil.insertionSort(temp, comparator, 0, 2);
+//		T pivot = temp.get(1);
+//		int pivotIndex;
+//		if(pivot.equals(list.get(rightBound))){
+//			pivotIndex = rightBound;
+//		}
+//		else if(pivot.equals(list.get(leftBound))){
+//			pivotIndex = leftBound;
+//		}
+//		else{
+//			pivotIndex = mid;
+//		}
+		
 		//set pivot equal to the value at the middle index of the array
-		T pivot = list.get((rightBound - leftBound)/ 2 + leftBound);  
-		int pivotIndex = (rightBound - leftBound)/ 2 + leftBound; 
+//		T pivot = list.get((rightBound - leftBound)/ 2 + leftBound);  
+//		int pivotIndex = (rightBound - leftBound)/ 2 + leftBound; 
 		
 		//find pivot, swap with rightBound
 		swap(list, rightBound, pivotIndex);
@@ -174,14 +198,14 @@ public class SortUtil{
 		int rightComparison = comparator.compare(list.get(right), pivot); 
 		
 		while(left <= right){
+			leftComparison = comparator.compare(list.get(left), pivot);
 			if(leftComparison <= 0){
 				left++; 
-				leftComparison = comparator.compare(list.get(left), pivot); 
 				continue; // find next item > pivot
 			}
+			rightComparison = comparator.compare(list.get(right), pivot);
 			if(rightComparison >= 0){
 				right--; 
-				rightComparison = comparator.compare(list.get(right), pivot);
 				continue; // find its “swapping partner”
 			}
 			
@@ -189,11 +213,7 @@ public class SortUtil{
 			//(arr, L, R); // partners found, swap them
 			swap(list, left, right); 
 			left++; 
-			right--; 
-			
-			leftComparison = comparator.compare(list.get(left), pivot); 
-			rightComparison = comparator.compare(list.get(right), pivot); 
-			
+			right--; 			
 		}
 		swap(list, left, rightBound); 
 		pivotIndex = left;  
