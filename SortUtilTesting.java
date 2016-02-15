@@ -29,5 +29,50 @@ public class SortUtilTesting {
 		SortUtil.quicksort(testList, new IntCompare());
 		assertEquals(new Integer(3), testList.get(2));
 	}
-
+	
+	@Test
+	public void sortOnThesholdSizedList(){
+		
+	}
+	
+	@Test
+	public void sortOnEmptyList(){
+		
+	}
+	
+	@Test
+	public void sortOnListWithOneItem(){
+		
+	}
+	
+	@Test
+	public void sortOnLargeRandomlyGeneratedList(){
+		
+	}
+	
+	@Test
+	public void sortOnListOfObjectsThatDoNotUseNaturalOrdering(){
+		
+	}
+	
+	@Test
+	public void sortOnAlreadySortedList(){
+		
+	}
+	
+	@Test
+	public void mergesortOnWorstCaseList(){
+		
+	}
+	
+	@Test
+	public void quicksortWherePivotIsSmallestElement(){
+		
+	}
+	
+	@Test
+	public void quicksortWherePivotIsLargestElement(){
+		
+	}
+	
 }

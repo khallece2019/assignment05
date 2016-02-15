@@ -159,13 +159,14 @@ public class SortUtil{
 	}
 	
 	private static <T> int partition(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
-		//find pivot, swap with right_bound;
+		//set pivot equal to the value at the middle index of the array
 		T pivot = list.get((rightBound - leftBound)/ 2 + leftBound);  
 		int pivotIndex = (rightBound - leftBound)/ 2 + leftBound; 
 		
+		//find pivot, swap with rightBound
 		swap(list, rightBound, pivotIndex);
 		
-		//L = left_bound, R = right_bound - 1;
+		//L = leftBound, R = rightBound - 1;
 		int left = leftBound;  
 		int right = rightBound - 1; 
 		
