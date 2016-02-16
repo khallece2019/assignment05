@@ -37,16 +37,41 @@ public class SortUtilTesting {
 	
 	@Test
 	public void sortOnEmptyList(){
-		
+		//not sure how to test this one since trying to access any index
+		//will throw outofBounds exception (since it's empty)
 	}
 	
 	@Test
 	public void sortOnListWithOneItem(){
+		ArrayList<Integer> mergeTestList = new ArrayList<Integer>(); 
+		mergeTestList.add(new Integer(6)); 
+		SortUtil.mergesort(mergeTestList, new IntCompare());
+		assertEquals(new Integer(6), mergeTestList.get(0)); 
+		
+		ArrayList<Integer> quickTestList = new ArrayList<Integer>(); 
+		quickTestList.add(new Integer(4)); 
+		SortUtil.mergesort(quickTestList, new IntCompare());
+		assertEquals(new Integer(4), quickTestList.get(0)); 
 		
 	}
 	
 	@Test
 	public void sortOnLargeRandomlyGeneratedList(){
+		ArrayList<Integer> mergeTestList = SortUtil.generateAverageCase(1000); 
+		SortUtil.mergesort(mergeTestList, new IntCompare());
+		for(int i = 0; i < mergeTestList.size() - 1; i++){
+			if(mergeTestList.get(i) > mergeTestList.get(i + 1)){
+				fail("Mergesort failed: should not happen"); 
+			}
+		}
+		
+		ArrayList<Integer> quickTestList = SortUtil.generateAverageCase(1000); 
+		SortUtil.quicksort(quickTestList, new IntCompare());
+		for(int i = 0; i < quickTestList.size() - 1; i++){
+			if(quickTestList.get(i) > quickTestList.get(i + 1)){
+				fail("Mergesort failed: should not happen"); 
+			}
+		}
 		
 	}
 	
@@ -57,6 +82,21 @@ public class SortUtilTesting {
 	
 	@Test
 	public void sortOnAlreadySortedList(){
+		ArrayList<Integer> mergeTestList = SortUtil.generateBestCase(100); 
+		SortUtil.mergesort(mergeTestList, new IntCompare());
+		for(int i = 0; i < mergeTestList.size() - 1; i++){
+			if(mergeTestList.get(i) > mergeTestList.get(i + 1)){
+				fail("Mergesort failed: should not happen"); 
+			}
+		}
+		
+		ArrayList<Integer> quickTestList = SortUtil.generateBestCase(100);
+		SortUtil.quicksort(quickTestList, new IntCompare());
+		for(int i = 0; i < quickTestList.size() - 1; i++){
+			if(quickTestList.get(i) > quickTestList.get(i + 1)){
+				fail("Quicksort failed: should not happen"); 
+			}
+		}
 		
 	}
 	

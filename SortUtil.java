@@ -25,7 +25,6 @@ public class SortUtil{
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
 	 */
 	public static <T> void insertionSort(ArrayList<T> data, Comparator<? super T> comparator, int left, int right){
-
 		for(int i=left; i <= right; i++){
 			T index = data.get(i);
 			int j = i;
@@ -45,6 +44,9 @@ public class SortUtil{
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
 	 */
 	public static <T> void mergesort(ArrayList<T> list, Comparator<? super T> comparator){
+		if(list.size() == 0 || list.size() == 1){
+			return; 
+		}
 		int left = 0;
 		int right = list.size()-1;
 		mergeSortRecursive(list, comparator, left, right);
@@ -58,8 +60,8 @@ public class SortUtil{
 	 * and then the method stops the recursive calls and switches to insertion sort
 	 * @param list -- list of objects of any type 
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
-	 * @param left -- 
-	 * @param right --
+	 * @param left -- lower bound of the list
+	 * @param right -- upper bound of the list
 	 */
 	private static <T> void mergeSortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
 		if(right-left<=thresholdSize){
@@ -74,6 +76,16 @@ public class SortUtil{
 		}
 	}
 	
+	/**
+	 * This method performs the merge step of the recursive mergesort. The method is invoked
+	 * after the base cases for the left sub-arrayList and the right sub-arrayList have 
+	 * been reached
+	 * @param list -- list of objects of any type 
+	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
+	 * @param left -- lower bound of the left sub-arrayList
+	 * @param mid -- marks division between left and right sub-arrayLists 
+	 * @param right -- upper bound of the right sub-arrayList
+	 */
 	private static<T> void merge(ArrayList<T> list, Comparator<? super T> comparator, int left, int mid, int right){
 		// create temp array for holding merged arr
 		int i1 = left;
@@ -122,6 +134,9 @@ public class SortUtil{
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
 	 */
 	public static <T> void quicksort(ArrayList<T> list, Comparator<? super T> comparator){
+		if(list.size() == 0 || list.size() == 1){
+			return; 
+		}
 		int left = 0;
 		int right = list.size() -1;
 		
@@ -134,8 +149,8 @@ public class SortUtil{
 	 * and then the method stops the recursive calls and switches to insertion sort
 	 * @param list -- list of objects of any type 
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
-	 * @param left --
-	 * @param right --
+	 * @param left -- lower bound of the list
+	 * @param right -- upper bound of the list
 	 */
 	private static <T> void quicksortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
 		if(right-left<=thresholdSize){
@@ -151,12 +166,28 @@ public class SortUtil{
 		return;
 	}
 	
+	/**
+	 * This helper method performs a swap between to items in the arrayList. 
+	 * It is used in both mergesort and quicksort 
+	 * @param list -- list of objects of any type 
+	 * @param i1 -- index where the first value to be swapped occurs. 
+	 * @param i2 -- index where the second value to be swapped occurs. 
+	 */
 	private static <T> void swap(ArrayList<T> list, int i1, int i2){
 		T temp = list.get(i1); 
 		list.set(i1, list.get(i2)); 
 		list.set(i2, temp); 
 	}
 	
+	/**
+	 * This method performs the partition step of the recursive quicksort function. This method is called before
+	 * the recursive case meaning each successive recursive call will also invoke the partition method.
+	 * @param list -- list of objects of any type 
+	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
+	 * @param leftBound -- lower bound of the list
+	 * @param rightBound -- upper bound of the list
+	 * @return value of the pivot index to be used in the next recursive call 
+	 */
 	private static <T> int partition(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
 		//set pivot equal to random element in list
 		Random rand = new Random();
