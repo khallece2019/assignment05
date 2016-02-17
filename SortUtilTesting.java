@@ -50,13 +50,25 @@ public class SortUtilTesting {
 	
 	@Test
 	public void sortOnThesholdSizedList(){
-		
+		ArrayList<Integer> testList1 = SortUtil.generateWorstCase(SortUtil.getThresholdSize());
+		ArrayList<Integer> testList2 = SortUtil.generateWorstCase(SortUtil.getThresholdSize());
+		ArrayList<Integer> answer = SortUtil.generateWorstCase(SortUtil.getThresholdSize());
+		answer.sort(new IntCompare());
+		SortUtil.mergesort(testList1, new IntCompare());
+		SortUtil.quicksort(testList2, new IntCompare());
+		assertEquals(true, answer.equals(testList1));
+		assertEquals(true, answer.equals(testList2));
 	}
 	
 	@Test
 	public void sortOnEmptyList(){
-		//not sure how to test this one since trying to access any index
-		//will throw outofBounds exception (since it's empty)
+		ArrayList<Integer> testList1 = new ArrayList<Integer>();
+		ArrayList<Integer> testList2 = new ArrayList<Integer>();
+		ArrayList<Integer> answer = new ArrayList<Integer>();
+		SortUtil.mergesort(testList1, new IntCompare());
+		SortUtil.quicksort(testList2, new IntCompare());
+		assertEquals(true, answer.equals(testList1));
+		assertEquals(true, answer.equals(testList2));
 	}
 	
 	@Test
@@ -142,7 +154,11 @@ public class SortUtilTesting {
 	
 	@Test
 	public void mergesortOnWorstCaseList(){
-		
+		ArrayList<Integer> testList1 = SortUtil.generateWorstCase(100);
+		ArrayList<Integer> answer = SortUtil.generateWorstCase(100);
+		answer.sort(new IntCompare());
+		SortUtil.mergesort(testList1, new IntCompare());
+		assertEquals(true, answer.equals(testList1));
 	}
 	
 	@Test

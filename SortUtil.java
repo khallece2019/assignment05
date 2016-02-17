@@ -15,7 +15,11 @@ import java.util.Random;
 public class SortUtil{
 	//Variable declarations 
 	private static Random rand;
-	private static int thresholdSize = 1;
+	private static int thresholdSize = 50;
+	
+	public static int getThresholdSize(){
+		return thresholdSize;
+	}
 	
 	/**
 	 * This method performs an insertion sort on a list of data using 
