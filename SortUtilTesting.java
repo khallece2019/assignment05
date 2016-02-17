@@ -22,6 +22,23 @@ public class SortUtilTesting {
 		}
 		
 	}
+	
+	protected static class OrderStringLength implements Comparator<String>{
+
+		@Override
+		public int compare(String s1, String s2) {
+			if(s1.length() > s2.length()){
+				return 1;
+			}
+			else if(s1.length() == s2.length()){
+				return 0;
+			}
+			else
+				return -1;
+		}
+		
+	}
+	
 	@Test
 	public void test() {
 
@@ -33,37 +50,115 @@ public class SortUtilTesting {
 	
 	@Test
 	public void sortOnThesholdSizedList(){
-		
+		ArrayList<Integer> testList1 = SortUtil.generateWorstCase(SortUtil.getThresholdSize());
+		ArrayList<Integer> testList2 = SortUtil.generateWorstCase(SortUtil.getThresholdSize());
+		ArrayList<Integer> answer = SortUtil.generateWorstCase(SortUtil.getThresholdSize());
+		answer.sort(new IntCompare());
+		SortUtil.mergesort(testList1, new IntCompare());
+		SortUtil.quicksort(testList2, new IntCompare());
+		assertEquals(true, answer.equals(testList1));
+		assertEquals(true, answer.equals(testList2));
 	}
 	
 	@Test
 	public void sortOnEmptyList(){
-		
+		ArrayList<Integer> testList1 = new ArrayList<Integer>();
+		ArrayList<Integer> testList2 = new ArrayList<Integer>();
+		ArrayList<Integer> answer = new ArrayList<Integer>();
+		SortUtil.mergesort(testList1, new IntCompare());
+		SortUtil.quicksort(testList2, new IntCompare());
+		assertEquals(true, answer.equals(testList1));
+		assertEquals(true, answer.equals(testList2));
 	}
 	
 	@Test
 	public void sortOnListWithOneItem(){
+		ArrayList<Integer> mergeTestList = new ArrayList<Integer>(); 
+		mergeTestList.add(new Integer(6)); 
+		SortUtil.mergesort(mergeTestList, new IntCompare());
+		assertEquals(new Integer(6), mergeTestList.get(0)); 
+		
+		ArrayList<Integer> quickTestList = new ArrayList<Integer>(); 
+		quickTestList.add(new Integer(4)); 
+		SortUtil.mergesort(quickTestList, new IntCompare());
+		assertEquals(new Integer(4), quickTestList.get(0)); 
 		
 	}
 	
 	@Test
 	public void sortOnLargeRandomlyGeneratedList(){
+		ArrayList<Integer> mergeTestList = SortUtil.generateAverageCase(1000); 
+		SortUtil.mergesort(mergeTestList, new IntCompare());
+		for(int i = 0; i < mergeTestList.size() - 1; i++){
+			if(mergeTestList.get(i) > mergeTestList.get(i + 1)){
+				fail("Mergesort failed: should not happen"); 
+			}
+		}
+		
+		ArrayList<Integer> quickTestList = SortUtil.generateAverageCase(1000); 
+		SortUtil.quicksort(quickTestList, new IntCompare());
+		for(int i = 0; i < quickTestList.size() - 1; i++){
+			if(quickTestList.get(i) > quickTestList.get(i + 1)){
+				fail("Mergesort failed: should not happen"); 
+			}
+		}
 		
 	}
 	
+
+	
+	
 	@Test
 	public void sortOnListOfObjectsThatDoNotUseNaturalOrdering(){
-		
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("a");
+		list.add("in");
+		list.add("car");
+		list.add("eaten");
+		list.add("horrible");
+		list.add("zero");
+		list.add("yellow");
+		list.add("university");
+		ArrayList<String> answer = new ArrayList<String>();
+		ArrayList<String> quicksortList = new ArrayList<String>();
+		for(int i= 0; i<list.size();i++){
+			answer.add(list.get(i));
+			quicksortList.add(list.get(i));
+		}
+		answer.sort(new OrderStringLength());
+		SortUtil.quicksort(quicksortList, new OrderStringLength());
+		SortUtil.mergesort(list, new OrderStringLength());
+		assertEquals(true, answer.equals(list));	
+		assertEquals(true, answer.equals(quicksortList));
 	}
 	
 	@Test
 	public void sortOnAlreadySortedList(){
+		ArrayList<Integer> mergeTestList = SortUtil.generateBestCase(100); 
+		SortUtil.mergesort(mergeTestList, new IntCompare());
+		for(int i = 0; i < mergeTestList.size() - 1; i++){
+			if(mergeTestList.get(i) > mergeTestList.get(i + 1)){
+				fail("Mergesort failed: should not happen"); 
+			}
+		}
+		
+		ArrayList<Integer> quickTestList = SortUtil.generateBestCase(100);
+		SortUtil.quicksort(quickTestList, new IntCompare());
+		for(int i = 0; i < quickTestList.size() - 1; i++){
+			if(quickTestList.get(i) > quickTestList.get(i + 1)){
+				fail("Quicksort failed: should not happen"); 
+			}
+		}
 		
 	}
 	
 	@Test
 	public void mergesortOnWorstCaseList(){
-		
+		ArrayList<Integer> testList1 = SortUtil.generateWorstCase(100);
+		ArrayList<Integer> answer = SortUtil.generateWorstCase(100);
+		answer.sort(new IntCompare());
+		SortUtil.mergesort(testList1, new IntCompare());
+		assertEquals(true, answer.equals(testList1));
 	}
 	
 	@Test
