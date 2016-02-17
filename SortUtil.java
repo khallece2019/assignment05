@@ -184,6 +184,68 @@ public class SortUtil{
 	}
 	
 	/**
+	 * Computes the median of the values at the lowest, middle, and highest
+	 * indexes in the ArrayList. The index of the median of the three is used
+	 * as the pivot index  
+	 * @param list -- list of objects of any type 
+	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
+	 * @param leftBound -- lower bound of the list
+	 * @param rightBound -- upper bound of the list
+	 * @return -- index where pivot value occurs
+	 */
+	private static <T> int medianOfThreePivot(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
+		ArrayList<T> temp = new ArrayList<T>();
+		int mid = (rightBound-leftBound)/2 + leftBound;
+		temp.add(list.get(rightBound));
+		temp.add(list.get(leftBound));
+		temp.add(list.get(mid));
+		SortUtil.insertionSort(temp, comparator, 0, 2);
+		T pivot = temp.get(1);
+		int pivotIndex;
+		if(pivot.equals(list.get(rightBound))){
+			pivotIndex = rightBound;
+		}
+		else if(pivot.equals(list.get(leftBound))){
+			pivotIndex = leftBound;
+		}
+		else{
+			pivotIndex = mid;
+		}
+		
+		return pivotIndex; 
+	}
+	
+	/**
+	 * This method randomly selects and index in the arrayList. 
+	 * The value at this index will be used as a pivot value. 
+	 * @param list -- list of objects of any type 
+	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
+	 * @param leftBound -- lower bound of the list
+	 * @param rightBound -- upper bound of the list
+	 * @return -- index where pivot value occurs
+	 */
+	private static <T> int randomPivot(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
+		Random rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
+		int pivotIndex = rand.nextInt(1+(rightBound-leftBound))+leftBound;
+		return pivotIndex; 
+	}
+	
+	/**
+	 * This method returns the index of the middle of the arrayList. 
+	 * The value at this index will be used as the pivot value. 
+	 * @param list -- list of objects of any type 
+	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
+	 * @param leftBound -- lower bound of the list
+	 * @param rightBound -- upper bound of the list
+	 * @return -- index where pivot value occurs
+	 */
+	private static <T> int middlePivot(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
+		int pivotIndex = (rightBound - leftBound)/ 2 + leftBound; 
+		return pivotIndex; 
+	}
+	
+	/**
 	 * This method performs the partition step of the recursive quicksort function. This method is called before
 	 * the recursive case meaning each successive recursive call will also invoke the partition method.
 	 * @param list -- list of objects of any type 
@@ -193,34 +255,12 @@ public class SortUtil{
 	 * @return value of the pivot index to be used in the next recursive call 
 	 */
 	private static <T> int partition(ArrayList<T> list, Comparator<? super T> comparator, int leftBound, int rightBound){
-		//set pivot equal to random element in list
-		Random rand = new Random();
-		rand.setSeed(System.currentTimeMillis());
-		int pivotIndex = rand.nextInt(1+(rightBound-leftBound))+leftBound;
-		T pivot = list.get(pivotIndex);
+		//Different methods of determining the pivot value (comment out methods not being used). 
+		int pivotIndex = SortUtil.medianOfThreePivot(list, comparator, leftBound, rightBound);
+		//SortUtil.middlePivot(list, comparator, leftBound, rightBound); 
+		//SortUtil.randomPivot(list, comparator, leftBound, rightBound); 
 		
-		//set pivot equal to the median of three values
-//		ArrayList<T> temp = new ArrayList<T>();
-//		temp.add(list.get(rightBound));
-//		temp.add(list.get(leftBound));
-//		int mid = (rightBound-leftBound)/2 + leftBound;
-//		temp.add(list.get(mid));
-//		SortUtil.insertionSort(temp, comparator, 0, 2);
-//		T pivot = temp.get(1);
-//		int pivotIndex;
-//		if(pivot.equals(list.get(rightBound))){
-//			pivotIndex = rightBound;
-//		}
-//		else if(pivot.equals(list.get(leftBound))){
-//			pivotIndex = leftBound;
-//		}
-//		else{
-//			pivotIndex = mid;
-//		}
-		
-		//set pivot equal to the value at the middle index of the array
-//		T pivot = list.get((rightBound - leftBound)/ 2 + leftBound);  
-//		int pivotIndex = (rightBound - leftBound)/ 2 + leftBound; 
+		T pivot = list.get(pivotIndex); 
 		
 		//find pivot, swap with rightBound
 		swap(list, rightBound, pivotIndex);
