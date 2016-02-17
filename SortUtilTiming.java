@@ -12,19 +12,19 @@ public class SortUtilTiming {
 		/**
 		 * Code for Mergesort Threshold experiment
 		 */
-			//implement
+			//TODO implement
 		
 		
 		/**
 		 * Code for Quicksort Pivot experiment
 		 */
-			//implement
+			//TODO implement
 		
 		/**
 		 * Code for quicksort vs. mergesort run-time experiment 
 		 */
 		
-			//implement
+			//TODO implement
 
 	}
 

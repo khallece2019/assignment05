@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -22,6 +23,23 @@ public class SortUtilTesting {
 		}
 		
 	}
+	
+	protected static class OrderStringLength implements Comparator<String>{
+
+		@Override
+		public int compare(String s1, String s2) {
+			if(s1.length() > s2.length()){
+				return 1;
+			}
+			else if(s1.length() == s2.length()){
+				return 0;
+			}
+			else
+				return -1;
+		}
+		
+	}
+	
 	@Test
 	public void test() {
 
@@ -75,9 +93,31 @@ public class SortUtilTesting {
 		
 	}
 	
+
+	
+	
 	@Test
 	public void sortOnListOfObjectsThatDoNotUseNaturalOrdering(){
-		
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("a");
+		list.add("in");
+		list.add("car");
+		list.add("eaten");
+		list.add("horrible");
+		list.add("zero");
+		list.add("yellow");
+		list.add("university");
+		ArrayList<String> answer = new ArrayList<String>();
+		ArrayList<String> quicksortList = new ArrayList<String>();
+		for(int i= 0; i<list.size();i++){
+			answer.add(list.get(i));
+			quicksortList.add(list.get(i));
+		}
+		answer.sort(new OrderStringLength());
+		SortUtil.quicksort(quicksortList, new OrderStringLength());
+		SortUtil.mergesort(list, new OrderStringLength());
+		assertEquals(true, answer.equals(list));	
+		assertEquals(true, answer.equals(quicksortList));
 	}
 	
 	@Test
