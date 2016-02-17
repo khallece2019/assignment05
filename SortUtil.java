@@ -15,7 +15,7 @@ import java.util.Random;
 public class SortUtil{
 	//Variable declarations 
 	private static Random rand;
-	private static int thresholdSize = 50;
+	private static int thresholdSize = 25;
 	
 	public static int getThresholdSize(){
 		return thresholdSize;
