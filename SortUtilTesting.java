@@ -40,12 +40,10 @@ public class SortUtilTesting {
 	}
 	
 	@Test
-	public void test() {
-
+	public void conceptualTest() {
 		ArrayList<Integer> testList = SortUtil.generateWorstCase(10);
 		SortUtil.quicksort(testList, new IntCompare());
 		assertEquals(new Integer(10), testList.get(9));
-		System.out.println("It prints stuff here");
 	}
 	
 	@Test
