@@ -135,7 +135,6 @@ public class SortUtilTiming {
 
 	private static final int ITER_COUNT = 1000;
 	private static Random rand;
-	private static final int listSize = 10000;
 	private static Comparator<Integer> comparator = new IntCompare();
 	
 	protected static class IntCompare implements Comparator<Integer>{
@@ -165,7 +164,7 @@ public class SortUtilTiming {
 
 			System.out.println("Best Case \n" + "size" + "\t" + "mergesort\tquicksort"); // print to console
 			fw.write("Best Case \n" + "size" + "\t" + "mergesort\tquicksort" + "\n"); // write to file.
-			for(int exp = 10; exp <= 20; exp++) { // This is used as the exponent to calculate the size of the set.
+			for(int exp = 2; exp <= 12; exp++) { // This is used as the exponent to calculate the size of the set.
 				int size = (int) Math.pow(2, exp); // or ..  
 				size = 1 << exp; // the two statements are equivalent, look into bit-shifting if you're interested what is going on here.
 				
@@ -205,7 +204,7 @@ public class SortUtilTiming {
 
 			System.out.println("Average Case \n" + "size" + "\t" + "mergesort\tquicksort"); // print to console
 			fw.write("Average Case \n" + "size" + "\t" + "mergesort\tquicksort" + "\n"); // write to file.
-			for(int exp = 10; exp <= 20; exp++) { // This is used as the exponent to calculate the size of the set.
+			for(int exp = 2; exp <= 12; exp++) { // This is used as the exponent to calculate the size of the set.
 				int size = (int) Math.pow(2, exp); // or ..  
 				size = 1 << exp; // the two statements are equivalent, look into bit-shifting if you're interested what is going on here.
 				
@@ -245,7 +244,7 @@ public class SortUtilTiming {
 			
 			System.out.println("Worst Case \n" + "size" + "\t" + "mergesort\tquicksort"); // print to console
 			fw.write("Worst Case \n" + "size" + "\t" + "mergesort\tquicksort" + "\n"); // write to file.
-			for(int exp = 10; exp <= 20; exp++) { // This is used as the exponent to calculate the size of the set.
+			for(int exp = 2; exp <= 12; exp++) { // This is used as the exponent to calculate the size of the set.
 				int size = (int) Math.pow(2, exp); // or ..  
 				size = 1 << exp; // the two statements are equivalent, look into bit-shifting if you're interested what is going on here.
 				
