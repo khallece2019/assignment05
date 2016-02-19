@@ -48,16 +48,12 @@ public class SortUtil{
 	 * @param comparator -- comparator object that specifies how objects in the list should be compared. 
 	 */
 	public static <T> void mergesort(ArrayList<T> list, Comparator<? super T> comparator){
-		if(list.size() == 0 || list.size() == 1){
-			return; 
-		}
+		ArrayList<T> temp = new ArrayList<T>(); 
 		int left = 0;
 		int right = list.size()-1;
-		mergeSortRecursive(list, comparator, left, right);
+		mergeSortRecursive(list, temp, comparator, left, right);
 		return;
 	}
-	
-
 	
 	/**
 	 * This method performs a mergesort on a list of items until the number of items to be sorted becomes sufficiently small
@@ -67,16 +63,20 @@ public class SortUtil{
 	 * @param left -- lower bound of the list
 	 * @param right -- upper bound of the list
 	 */
-	private static <T> void mergeSortRecursive(ArrayList<T> list, Comparator<? super T> comparator, int left, int right){
+	private static <T> void mergeSortRecursive(ArrayList<T> list, ArrayList<T> temp, Comparator<? super T> comparator, int left, int right){
+		if(left>=right){
+			return; 
+		}
+		
+		int mid = (left + right) / 2;
 		if(right-left<=thresholdSize){
 			insertionSort(list, comparator, left, right);
 			return;
 		}
 		else{
-			int mid = (left + right) / 2;
-			mergeSortRecursive(list, comparator, left, mid);
-			mergeSortRecursive(list, comparator,  mid+1, right);
-			merge(list, comparator, left, mid, right);
+			mergeSortRecursive(list, temp, comparator, left, mid);
+			mergeSortRecursive(list, temp, comparator,  mid+1, right);
+			merge(list, temp, comparator, left, mid, right);
 		}
 	}
 	
@@ -90,11 +90,11 @@ public class SortUtil{
 	 * @param mid -- marks division between left and right sub-arrayLists 
 	 * @param right -- upper bound of the right sub-arrayList
 	 */
-	private static<T> void merge(ArrayList<T> list, Comparator<? super T> comparator, int left, int mid, int right){
+	private static<T> void merge(ArrayList<T> list, ArrayList<T> temp, Comparator<? super T> comparator, int left, int mid, int right){
 		// create temp array for holding merged arr
 		int i1 = left;
 		int i2 = mid+1;
-		ArrayList<T> temp = new ArrayList<T>();
+		
 		//put smaller of two sub-lists into temp
 		while(i1 <= mid && i2 <= right){
 			int comparison = comparator.compare(list.get(i1), list.get(i2));

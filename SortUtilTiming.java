@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import assignment05.SortUtilTesting.IntCompare;
+//import assignment05.SortUtilTesting.IntCompare;
 import java.util.Comparator;
 import java.util.Random;
 
-import assignment04.AnagramUtil; //unless we're submitting assignment 4 code with our timing this needs to be done differently
+//import assignment04.AnagramUtil; //unless we're submitting assignment 4 code with our timing this needs to be done differently
 
 /**
  * This class contains the code for completing timing experiments for 
@@ -23,8 +23,8 @@ public class SortUtilTiming {
 		long startTime, stopTime;
 		long avgTime = 0; 
 		long timesToLoop = 1000;
-		int lowerBound = 1; 
-		int upperBound = 10; 
+		int lowerBound = 5; 
+		int upperBound = 15; 
 		final int CAPACITY = (int)Math.pow(2, 20); 
 		long[][] outputData = new long[2][(upperBound-lowerBound) + 1];
 		
@@ -34,14 +34,15 @@ public class SortUtilTiming {
 		}
 		
 		list = SortUtil.generateAverageCase(CAPACITY); 
+		ArrayList<Integer> temp; 
 		
 		//Outer for loop controls the size of N. 
 		for(int i = lowerBound; i <= upperBound; i++){
 			int size = (int)Math.pow(2, i); 
 			avgTime = 0;
 			//This loop calls mergesort repeatedly on the items in a temp arrayList
-			for(long j = 0; j < timesToLoop; j++){
-				ArrayList<Integer> temp = new ArrayList<Integer>(); 
+			for(int j = 0; j < timesToLoop; j++){
+				temp = new ArrayList<Integer>(); 
 				//This loop copies size number of items into the temp array to be sorted 
 				//size is determined by the outer for loop 
 				for(int k = 0; k < size; k++){
@@ -59,11 +60,12 @@ public class SortUtilTiming {
 			avgTime = avgTime/timesToLoop;
 			outputData[0][i-lowerBound] = size;
 			outputData[1][i-lowerBound] = avgTime;
+			System.out.println("Just Finished 2 to the " + i);
 		}
 	
 
 	//Code to write the values contained in the output data array to a file. 
-	try(FileWriter outputWriter = new FileWriter(new File("mergesortTiming.csv"))){
+	try(FileWriter outputWriter = new FileWriter(new File("mergesortTimingThresh100.csv"))){
 		outputWriter.write("Timing of mergesort() on randomly generated arrayList, size (N) where N is number"
 				+ " of items contained in the list, time(ns)\n");
 		for(int i = 0; i < (upperBound-lowerBound) + 1; i++){
@@ -80,9 +82,9 @@ public class SortUtilTiming {
 				ArrayList<Integer> list; 
 				long startTime, stopTime;
 				long avgTime = 0; 
-				long timesToLoop = 1000;
-				int lowerBound = 1; 
-				int upperBound = 10; 
+				long timesToLoop = 100;
+				int lowerBound = 10; 
+				int upperBound = 20; 
 				final int CAPACITY = (int)Math.pow(2, 20); 
 				long[][] outputData = new long[2][(upperBound-lowerBound) + 1];
 				
@@ -99,7 +101,7 @@ public class SortUtilTiming {
 					avgTime = 0;
 					//This loop calls quicksort repeatedly on the items in a temp arrayList
 					
-					for(long j = 0; j < timesToLoop; j++){
+					for(int j = 0; j < timesToLoop; j++){
 						ArrayList<Integer> temp = new ArrayList<Integer>(); 
 						//This loop copies size number of items into the temp array to be sorted 
 						//size is determined by the outer for loop 
@@ -118,11 +120,12 @@ public class SortUtilTiming {
 					avgTime = avgTime/timesToLoop;
 					outputData[0][i-lowerBound] = size;
 					outputData[1][i-lowerBound] = avgTime;
+					System.out.println("Just Finished 2 to the " + i);
 				}
 			
 
 			//Code to write the values contained in the output data array to a file. 
-			try(FileWriter outputWriter = new FileWriter(new File("quicksortTimingMethod1.csv"))){
+			try(FileWriter outputWriter = new FileWriter(new File("quicksortTimingRandom.csv"))){
 				outputWriter.write("Timing of mergesort() on randomly generated arrayList, size (N) where N is number"
 						+ " of items contained in the list, time(ns)\n");
 				for(int i = 0; i < (upperBound-lowerBound) + 1; i++){
@@ -150,12 +153,13 @@ public class SortUtilTiming {
 		SortUtilTiming.thresholdExperiment();
 		
 		//Calls method to determine optimal pivot-picking method
-		SortUtilTiming.pivotExperiment();
+		//SortUtilTiming.pivotExperiment();
 
 		/**
 		 * Code for quicksort vs. mergesort run-time experiment 
 		 */
 		
+
 		long startTime = System.nanoTime();
 		while (System.nanoTime() - startTime < 1000000000);
 		//Test Best Case
@@ -277,7 +281,6 @@ public class SortUtilTiming {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 	}
 }
 
